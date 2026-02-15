@@ -1,5 +1,25 @@
+import { useNavigate } from "react-router-dom";
+
 const EventCard = ({ event, onClick }) => {
+  const navigate = useNavigate();
   const isFanFunded = event.type === "fanfund";
+
+  const handleButtonClick = (e) => {
+    e.stopPropagation(); // Prevent card onClick from firing
+    
+    if (isFanFunded) {
+      // For fan-funded events, open the modal to view details
+      onClick();
+    } else {
+      // For regular events, go directly to billing
+      navigate("/billing", {
+        state: {
+          eventId: event.id,
+          seats: 1,
+        },
+      });
+    }
+  };
 
   return (
     <div
@@ -56,7 +76,10 @@ const EventCard = ({ event, onClick }) => {
               <span className="text-2xl font-bold text-violet-500">₹{event.price}</span>
             </div>
           )}
-          <button className="bg-violet-600 hover:bg-violet-700 text-white px-5 py-2 rounded-lg transition font-semibold text-sm">
+          <button 
+            onClick={handleButtonClick}
+            className="bg-violet-600 hover:bg-violet-700 text-white px-5 py-2 rounded-lg transition font-semibold text-sm"
+          >
             {isFanFunded ? "View" : "Book Now"}
           </button>
         </div>

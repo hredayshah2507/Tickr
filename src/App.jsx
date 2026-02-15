@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import CategoryNav from "./components/CategoryNav";
@@ -6,9 +7,10 @@ import EventsCarousel from "./components/EventsCarousel";
 import FeatureSection from "./components/FeatureSection";
 import Testimonials from "./components/Testimonials";
 import Footer from "./components/Footer";
+import Billing from "./pages/Billing"; // Add this import - adjust path if needed
 import { events, categories, fanFundedEvents } from "./constants";
 
-const App = () => {
+const HomePage = () => {
   const [activeCategory, setActiveCategory] = useState("movies");
   const [viewMode, setViewMode] = useState("regular"); // "regular" or "fanfund"
 
@@ -73,6 +75,15 @@ const App = () => {
         <Footer />
       </div>
     </>
+  );
+};
+
+const App = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/billing" element={<Billing />} />
+    </Routes>
   );
 };
 

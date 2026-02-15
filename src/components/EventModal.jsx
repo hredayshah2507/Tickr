@@ -1,6 +1,9 @@
 import { X } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const EventModal = ({ event, isOpen, onClose }) => {
+  const navigate = useNavigate();
+  
   if (!isOpen) return null;
 
   // Determine event type
@@ -11,6 +14,17 @@ const EventModal = ({ event, isOpen, onClose }) => {
   if (isFanFunded && event.targetAmount) {
     fundingPercentage = Math.round((event.raisedAmount / event.targetAmount) * 100);
   }
+
+  // Handle booking ticket navigation
+  const handleBookTicket = () => {
+    navigate("/billing", {
+      state: {
+        eventId: event.id,
+        seats: 1, // Default to 1 seat, you can add a seat selector if needed
+      },
+    });
+    onClose(); // Close the modal after navigation
+  };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -78,7 +92,10 @@ const EventModal = ({ event, isOpen, onClose }) => {
                   <p className="text-sm text-neutral-400 mb-1">Starting Price</p>
                   <p className="text-3xl font-bold text-violet-500">₹{event.price}</p>
                 </div>
-                <button className="px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white rounded-lg font-semibold text-lg transition duration-300 transform hover:scale-105">
+                <button 
+                  onClick={handleBookTicket}
+                  className="px-8 py-3 bg-violet-600 hover:bg-violet-700 text-white rounded-lg font-semibold text-lg transition duration-300 transform hover:scale-105"
+                >
                   Book Ticket
                 </button>
               </div>
