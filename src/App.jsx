@@ -7,7 +7,9 @@ import EventsCarousel from "./components/EventsCarousel";
 import FeatureSection from "./components/FeatureSection";
 import Testimonials from "./components/Testimonials";
 import Footer from "./components/Footer";
-import Billing from "./pages/Billing"; // Add this import - adjust path if needed
+import Billing from "./pages/Billing";
+import MyTickets from "./pages/MyTickets";
+import AdminDashboard from "./pages/AdminDashboard";
 import { events, categories, fanFundedEvents } from "./constants";
 
 const HomePage = () => {
@@ -83,6 +85,8 @@ const App = () => {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/billing" element={<Billing />} />
+      <Route path="/my-tickets" element={<MyTickets />} />
+      <Route path="/admin" element={<AdminDashboard />} />
     </Routes>
   );
 };
