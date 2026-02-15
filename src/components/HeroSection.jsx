@@ -1,9 +1,22 @@
 import { Wallet } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // Added import
 import { events } from "../constants";
 
 const HeroSection = () => {
+  const navigate = useNavigate(); // Initialize hook
+
   // Get featured events (first 3 from movies as featured)
   const featuredEvents = events.movies.slice(0, 3);
+
+  // Handler for navigation
+  const handleEventClick = (eventId) => {
+    navigate("/billing", {
+      state: {
+        eventId: eventId,
+        seats: 1,
+      },
+    });
+  };
 
   return (
     <div className="flex flex-col items-center mt-6 lg:mt-20 mb-16">
@@ -42,6 +55,7 @@ const HeroSection = () => {
           {featuredEvents.map((event) => (
             <div
               key={event.id}
+              onClick={() => handleEventClick(event.id)} // Added Click Handler
               className="group cursor-pointer overflow-hidden rounded-xl border border-neutral-700 hover:border-orange-500 transition"
             >
               {/* Event Image */}
@@ -63,7 +77,13 @@ const HeroSection = () => {
                 <p className="text-sm text-neutral-400 mt-1">📅 {event.date}</p>
                 <div className="flex justify-between items-center mt-4">
                   <span className="text-2xl font-bold text-violet-500">₹{event.price}</span>
-                  <button className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded transition">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevents double-firing if clicking the specific button
+                      handleEventClick(event.id);
+                    }}
+                    className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded transition"
+                  >
                     Book Now
                   </button>
                 </div>
